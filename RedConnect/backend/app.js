@@ -13,7 +13,7 @@ const statsRoute = require('./routes/stats');
 const app = express();
 
 app.use(cors({
-  origin: 'https://redconnect-2.onrender.com', // ✅ allow Vercel frontend
+  origin: 'https://red-connect.vercel.app', // ✅ allow Vercel frontend
   credentials: true, // Optional: if you're using cookies/sessions
 }));
 
