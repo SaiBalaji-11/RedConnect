@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const api = import.meta.env.VITE_API_URL;
 
 const Application = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Application = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/api/users/match", {
+      const res = await axios.post(`${api}/api/users/match`, {
         bloodGroup: formData.requiredBloodGroup,
         city: formData.city,
         state: formData.state,

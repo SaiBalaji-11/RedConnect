@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const api = import.meta.env.VITE_API_URL;
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function Signup() {
     });
 
     try {
-      const res = await axios.post('http://localhost:3000/signup', data);
+      const res = await axios.post(`${api}/signup`, data);
       if (res.status === 201) {
         alert('Signup successful');
         navigate('/login');

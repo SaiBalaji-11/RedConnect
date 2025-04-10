@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
+const api = import.meta.env.VITE_API_URL;
 
 const Login = () => {
   const { login } = useAuth();
@@ -15,7 +16,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://localhost:3000/login', formData);
+      const res = await axios.post(`${api}/login`, formData);
       if (res.status === 200) {
         login();
         navigate('/');

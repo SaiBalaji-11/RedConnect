@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+const api = import.meta.env.VITE_API_URL;
 
 // Capitalize each word: "gandhi nagar" → "Gandhi Nagar"
 const toTitleCase = (str) =>
@@ -29,7 +30,7 @@ const MatchingUser = () => {
           >
             <div className="w-full flex justify-center mb-3">
               <img
-                src={`http://localhost:3000/uploads/${user.image}`}
+                src={`${api}/uploads/${user.image}`}
                 alt={user.name}
                 className="h-40 object-cover rounded-2xl w-full max-w-[200px]"
               />
