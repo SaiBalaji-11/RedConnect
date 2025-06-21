@@ -9,12 +9,15 @@ const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // <-- loading state
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleLogin = async () => {
+    setLoading(true); // Start spinner
+    setError('');
     try {
       const res = await axios.post(`${api}/login`, formData);
       if (res.status === 200) {
@@ -23,6 +26,8 @@ const Login = () => {
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Invalid credentials');
+    } finally {
+      setLoading(false); // Stop spinner (if there's an error)
     }
   };
 
@@ -52,9 +57,29 @@ const Login = () => {
 
         <button
           onClick={handleLogin}
-          className="bg-red-600 text-white px-4 py-2 w-full rounded hover:bg-red-700 transition"
+          disabled={loading}
+          className={`bg-red-600 text-white px-4 py-2 w-full rounded hover:bg-red-700 transition flex justify-center items-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
         >
-          Login
+          {loading ? (
+            <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+                fill="none"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 000 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+              />
+            </svg>
+          ) : (
+            'Login'
+          )}
         </button>
       </div>
     </div>
