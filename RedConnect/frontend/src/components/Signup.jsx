@@ -129,17 +129,23 @@ export default function Signup() {
         </div>
 
         {/* Image Upload */}
-        <div className="flex flex-col">
-          <label className="text-blue-900 font-medium mb-1">Upload Image</label>
-           <label className="bg-ash-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer w-fit text-center"></label>
+<div className="flex flex-col">
+      <label className="text-blue-900 font-medium mb-1">Upload Image</label>
+
+      <div className="flex items-center space-x-4">
+        <label className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer">
+          Choose File
           <input
             name="image"
             type="file"
             accept="image/*"
-            onChange={handleChange}
-            className="p-2"
+            onChange={onFileChange}
+            className="hidden"
           />
-        </div>
+        </label>
+        <span className="text-gray-700">{fileName}</span>
+      </div>
+    </div>
 
         <button type="submit" className="bg-red-500 text-white py-2 px-4 rounded-xl hover:bg-red-600">
           Sign Up
