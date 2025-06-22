@@ -50,10 +50,10 @@ export default function Signup() {
         {/* Standard Fields */}
         {[
           { label: "Full Name", name: "name" },
-          { label: "Username", name: "username" },
-          { label: "Password", name: "password", type: "password" },
+          { label: "Username[Length>4]", name: "username" },
+          { label: "Password[length>6]", name: "password", type: "password" },
           { label: "Confirm Password", name: "confirmPassword", type: "password" },
-          { label: "Age", name: "age", type: "number" },
+          { label: "Age[Limit:18-65]", name: "age", type: "number" },
         ].map(({ label, name, type = "text" }) => (
           <div key={name} className="flex flex-col">
             <label className="text-blue-900 font-medium mb-1">{label}</label>
@@ -94,7 +94,7 @@ export default function Signup() {
           { label: "City", name: "city" },
           { label: "Address", name: "address" },
           { label: "State", name: "state" },
-          { label: "Phone", name: "phone", type: "tel" },
+          { label: "Phone[10 Digits]", name: "phone", type: "tel" },
         ].map(({ label, name, type = "text" }) => (
           <div key={name} className="flex flex-col">
             <label className="text-blue-900 font-medium mb-1">{label}</label>
@@ -131,13 +131,14 @@ export default function Signup() {
         {/* Image Upload */}
         <div className="flex flex-col">
           <label className="text-blue-900 font-medium mb-1">Upload Image</label>
-          <input
+          <button><input
             name="image"
             type="file"
             accept="image/*"
             onChange={handleChange}
             className="p-2"
           />
+          </button>
         </div>
 
         <button type="submit" className="bg-red-500 text-white py-2 px-4 rounded-xl hover:bg-red-600">
