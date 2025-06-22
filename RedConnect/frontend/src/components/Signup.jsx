@@ -136,7 +136,7 @@ export default function Signup() {
             type="file"
             accept="image/*"
             onChange={handleChange}
-            className="p-2"
+            className="p-2 bg-blue-600 text-white"
           />
           </button>
         </div>
