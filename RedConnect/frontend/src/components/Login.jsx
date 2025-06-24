@@ -34,7 +34,7 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-100 px-4">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold text-center mb-6 text-red-600">Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-red-600 cursor-pointer">Login</h2>
 
         <input
           name="username"
