@@ -51,7 +51,7 @@ export default function Signup() {
         {[
           { label: "Full Name", name: "name" },
           { label: "Username[Length>4]", name: "username" },
-          { label: "Password[length>6]", name: "password", type: "password" },
+          { label: "Password[Length>6]", name: "password", type: "password" },
           { label: "Confirm Password", name: "confirmPassword", type: "password" },
           { label: "Age[Limit:18-65]", name: "age", type: "number" },
         ].map(({ label, name, type = "text" }) => (
