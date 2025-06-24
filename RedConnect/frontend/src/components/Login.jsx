@@ -34,7 +34,7 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-100 px-4">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold text-center mb-6 text-red-600 cursor-pointer">Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-red-600">Login</h2>
 
         <input
           name="username"
@@ -58,7 +58,7 @@ const Login = () => {
         <button
           onClick={handleLogin}
           disabled={loading}
-          className={`bg-red-600 text-white px-4 py-2 w-full rounded hover:bg-red-700 transition flex justify-center items-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+          className={`bg-red-600 text-white px-4 py-2 w-full rounded hover:bg-red-700 transition cursor-pointer flex justify-center items-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
         >
           {loading ? (
             <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
