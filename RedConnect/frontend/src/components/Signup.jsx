@@ -35,7 +35,7 @@ export default function Signup() {
         navigate('/login');
       }
     } catch (err) {
-      alert(err.response?.data?.message || 'Signup failed');
+      alert('Enter Valid Data!!');
     }
   };
 
