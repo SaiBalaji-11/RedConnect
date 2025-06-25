@@ -15,9 +15,7 @@ export default function Signup() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -34,29 +32,20 @@ export default function Signup() {
       return;
     }
 
-    const requiredFields = ['name', 'username', 'password', 'confirmPassword', 'age', 'bloodGroup', 'alcohol', 'smoker', 'city', 'address', 'state', 'phone', 'image'];
-    for (const field of requiredFields) {
-      if (!formData[field]) {
-        setError(`Please fill the "${field}" field`);
-        scrollToTop();
-        return;
-      }
-    }
+    const data = new FormData();
+    Object.keys(formData).forEach((key) => {
+      data.append(key, formData[key]);
+    });
 
     try {
       setLoading(true);
-      const data = new FormData();
-      Object.entries(formData).forEach(([key, value]) => {
-        data.append(key, value);
-      });
-
       const res = await axios.post(`${api}/signup`, data);
       if (res.status === 201) {
         alert('Signup successful');
         navigate('/login');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Enter valid data or check if username already exists!');
+      setError(err.response?.data?.message || 'Enter Valid Data or check if username already exists!');
       scrollToTop();
     } finally {
       setLoading(false);
@@ -77,67 +66,58 @@ export default function Signup() {
           </div>
         )}
 
-        {[
-          { label: "Full Name", name: "name" },
-          { label: "Username [min 4 chars]", name: "username" },
-          { label: "Password [min 6 chars]", name: "password", type: "password" },
-          { label: "Confirm Password", name: "confirmPassword", type: "password" },
-          { label: "Age [18–65]", name: "age", type: "number" },
-        ].map(({ label, name, type = "text" }) => (
+        {[{ label: 'Full Name', name: 'name' }, { label: 'Username [min 4 chars]', name: 'username' }, { label: 'Password [min 6 chars]', name: 'password', type: 'password' }, { label: 'Confirm Password', name: 'confirmPassword', type: 'password' }, { label: 'Age [18–65]', name: 'age', type: 'number' }].map(({ label, name, type = 'text' }) => (
           <div key={name} className="flex flex-col">
             <label className="text-blue-900 font-medium mb-1">{label}</label>
             <input
               name={name}
               type={type}
+              required
               value={formData[name]}
               onChange={handleChange}
               className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-              required
               disabled={loading}
             />
           </div>
         ))}
 
-        {[{
-          label: "Blood Group", name: "bloodGroup", options: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"]
-        }, {
-          label: "Alcohol", name: "alcohol", options: ["yes", "no"]
-        }, {
-          label: "Smoker", name: "smoker", options: ["yes", "no"]
-        }].map(({ label, name, options }) => (
+        {/* Select Fields */}
+        {[{ label: 'Blood Group', name: 'bloodGroup', options: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'] }, { label: 'Alcohol', name: 'alcohol', options: ['yes', 'no'] }, { label: 'Smoker', name: 'smoker', options: ['yes', 'no'] }].map(({ label, name, options }) => (
           <div key={name} className="flex flex-col">
             <label className="text-blue-900 font-medium mb-1">{label}</label>
             <select
               name={name}
               value={formData[name]}
               onChange={handleChange}
-              className="p-2 border rounded"
               required
               disabled={loading}
+              className="p-2 border rounded"
             >
               <option value="">-- Select --</option>
-              {options.map(opt => (
+              {options.map((opt) => (
                 <option key={opt} value={opt}>{opt.toUpperCase()}</option>
               ))}
             </select>
           </div>
         ))}
 
-        {["city", "address", "state", "phone"].map(name => (
+        {/* Text Fields */}
+        {["city", "address", "state", "phone"].map((name) => (
           <div key={name} className="flex flex-col">
             <label className="text-blue-900 font-medium mb-1">{name.charAt(0).toUpperCase() + name.slice(1)}</label>
             <input
               name={name}
               type={name === "phone" ? "tel" : "text"}
+              required
               value={formData[name]}
               onChange={handleChange}
-              required
               className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
               disabled={loading}
             />
           </div>
         ))}
 
+        {/* Image Upload */}
         <div className="flex flex-col">
           <label className="text-blue-900 font-medium mb-1">Upload Image</label>
           <input
