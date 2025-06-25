@@ -19,14 +19,14 @@ const Navbar = () => {
   return (
     <nav className="bg-blue-600 text-white p-8 flex justify-between items-center relative">
       {/* Left Logo + Text */}
-      <div className="flex items-center space-x-2">
+      <Link to="/" className="flex items-center space-x-2">
         <img
           src={Logo}
           alt="Logo"
           className="w-10 h-10 rounded-full object-cover"
         />
         <span className="font-bold text-2xl">RedConnect</span>
-      </div>
+      </Link>
 
       {/* Hamburger Icon for Mobile */}
       <div className="md:hidden cursor-pointer" onClick={toggleMenu}>
@@ -57,7 +57,7 @@ const Navbar = () => {
                 logout();
                 handleLinkClick();
               }} 
-              className="bg-white text-red-600 px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition"
+              className="bg-white text-red-600 px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition cursor-pointer"
             >
               Logout
             </button>

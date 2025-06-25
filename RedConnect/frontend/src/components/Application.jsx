@@ -181,7 +181,7 @@ const Application = () => {
 
         <button
           type="submit"
-          className="bg-blue-600 text-white py-3 px-5 rounded w-full hover:bg-blue-700 transition"
+          className="bg-blue-600 text-white py-3 px-5 rounded w-full hover:bg-blue-700 transition cursor-pointer"
         >
           Apply Now
         </button>
