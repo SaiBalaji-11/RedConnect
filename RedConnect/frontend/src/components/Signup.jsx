@@ -12,6 +12,7 @@ export default function Signup() {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -20,20 +21,21 @@ export default function Signup() {
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
+    if (serverError) setServerError('');
   };
 
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.username || formData.username.length <= 4) newErrors.username = 'Username must be >4 characters';
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.username.trim() || formData.username.length <= 4) newErrors.username = 'Username must be >4 characters';
     if (!formData.password || formData.password.length <= 6) newErrors.password = 'Password must be >6 characters';
     if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Passwords don't match";
     if (!formData.age || formData.age < 18 || formData.age > 65) newErrors.age = 'Age must be 18-65';
     if (!formData.bloodGroup) newErrors.bloodGroup = 'Blood group is required';
-    if (!formData.city) newErrors.city = 'City is required';
-    if (!formData.address) newErrors.address = 'Address is required';
-    if (!formData.state) newErrors.state = 'State is required';
+    if (!formData.city.trim()) newErrors.city = 'City is required';
+    if (!formData.address.trim()) newErrors.address = 'Address is required';
+    if (!formData.state.trim()) newErrors.state = 'State is required';
     if (!formData.phone || !/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Phone must be 10 digits';
     if (!formData.alcohol) newErrors.alcohol = 'This field is required';
     if (!formData.smoker) newErrors.smoker = 'This field is required';
@@ -45,6 +47,7 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setServerError('');
     
     if (!validateForm()) {
       return;
@@ -54,21 +57,33 @@ export default function Signup() {
 
     const data = new FormData();
     Object.keys(formData).forEach((key) => {
-      data.append(key, formData[key]);
+      if (formData[key] !== null && formData[key] !== undefined) {
+        data.append(key, formData[key]);
+      }
     });
 
     try {
-      const res = await axios.post(`${api}/signup`, data);
+      const res = await axios.post(`${api}/signup`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       if (res.status === 201) {
         alert('Signup successful');
         navigate('/login');
       }
     } catch (err) {
       let errorMessage = 'Signup failed. Please try again.';
-      if (err.response && err.response.data && err.response.data.message) {
-        errorMessage = err.response.data.message;
+      if (err.response) {
+        if (err.response.data && err.response.data.message) {
+          errorMessage = err.response.data.message;
+        } else if (err.response.status === 400) {
+          errorMessage = 'Validation error. Please check your inputs.';
+        } else if (err.response.status === 409) {
+          errorMessage = 'Username already exists. Please choose another.';
+        }
       }
-      alert(errorMessage);
+      setServerError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -81,6 +96,12 @@ export default function Signup() {
         className="bg-white border border-red-400 rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-xl space-y-5 mt-10"
       >
         <h2 className="text-2xl font-bold text-center text-red-600">Create Your Account</h2>
+
+        {serverError && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            {serverError}
+          </div>
+        )}
 
         {/* Standard Fields */}
         {[
