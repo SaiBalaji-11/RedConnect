@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const api = import.meta.env.VITE_API_URL;
 
 export default function Signup() {
   const navigate = useNavigate();
+  const formRef = useRef(null); // Add this ref
   const [formData, setFormData] = useState({
     name: '', username: '', password: '', confirmPassword: '',
     age: '', bloodGroup: '', alcohol: '', smoker: '', city: '',
@@ -14,10 +16,17 @@ export default function Signup() {
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState('');
 
+  // Scroll to top when error occurs
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData({ ...formData, [name]: files ? files[0] : value });
-    // Clear error when user types
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -36,12 +45,17 @@ export default function Signup() {
     if (!formData.city.trim()) newErrors.city = 'City is required';
     if (!formData.address.trim()) newErrors.address = 'Address is required';
     if (!formData.state.trim()) newErrors.state = 'State is required';
-    if (!formData.phone || !/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Phone must be 10 digits';
+    if (!formData.phone || !/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Use New PhoneNumber || Phone must be 10 digits';
     if (!formData.alcohol) newErrors.alcohol = 'This field is required';
     if (!formData.smoker) newErrors.smoker = 'This field is required';
     if (!formData.image) newErrors.image = 'Image is required';
     
     setErrors(newErrors);
+    
+    if (Object.keys(newErrors).length > 0) {
+      scrollToTop(); // Scroll to top when validation fails
+    }
+    
     return Object.keys(newErrors).length === 0;
   };
 
@@ -84,6 +98,7 @@ export default function Signup() {
         }
       }
       setServerError(errorMessage);
+      scrollToTop(); // Scroll to top when server error occurs
     } finally {
       setIsLoading(false);
     }
@@ -92,12 +107,23 @@ export default function Signup() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-white to-red-100 px-4">
       <form
+        ref={formRef}
         onSubmit={handleSubmit}
         className="bg-white border border-red-400 rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-xl space-y-5 mt-10"
       >
+        {/* Error message at the very top */}
+        {serverError && (
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+            <p className="font-bold">Error</p>
+            <p>{serverError}</p>
+          </div>
+        )}
+
         <h2 className="text-2xl font-bold text-center text-red-600">Create Your Account</h2>
 
-        {serverError && (
+        {/* Rest of your form remains the same */}
+        {/* ... */}
+                {serverError && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
             {serverError}
           </div>
@@ -234,6 +260,7 @@ export default function Signup() {
             </div>
           ) : 'Sign Up'}
         </button>
+
       </form>
     </div>
   );
