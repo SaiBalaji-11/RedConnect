@@ -176,7 +176,7 @@ export default function Signup() {
 
         {/* Other Fields */}
         {[
-          { label: "City", name: "city" },
+          { label: "District", name: "city" },
           { label: "Address", name: "address" },
           { label: "State", name: "state" },
           { label: "Phone[10 Digits]", name: "phone", type: "tel" },

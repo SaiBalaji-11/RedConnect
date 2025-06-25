@@ -159,7 +159,7 @@ const Application = () => {
           className="border p-3 rounded w-full mb-4"
         />
 
-        <label className="block font-medium">Your City:</label>
+        <label className="block font-medium">Your District:</label>
         <input
           type="text"
           name="city"
