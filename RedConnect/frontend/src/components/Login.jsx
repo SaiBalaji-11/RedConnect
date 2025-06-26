@@ -56,31 +56,43 @@ const Login = () => {
         {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
 
         <button
-          onClick={handleLogin}
-          disabled={loading}
-          className={`bg-red-600 text-white px-4 py-2 w-full rounded hover:bg-red-700 transition cursor-pointer flex justify-center items-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
-        >
-          {loading ? (
-            <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-                fill="none"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 000 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
-              />
-            </svg>
-          ) : (
-            'Login'
-          )}
-        </button>
+  onClick={handleLogin}
+  disabled={loading}
+  className={`bg-red-600 text-white px-4 py-2 w-full rounded hover:bg-red-700 transition cursor-pointer flex justify-center items-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+>
+  {loading ? (
+    <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+        fill="none"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 000 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+      />
+    </svg>
+  ) : (
+    'Login'
+  )}
+</button>
+
+{/* 👇 Add this below the button */}
+<p className="text-center text-sm mt-4">
+  Don't have an account?{' '}
+  <span
+    onClick={() => navigate('/signup')}
+    className="text-blue-600 hover:underline cursor-pointer"
+  >
+    Sign up here
+  </span>
+</p>
+
       </div>
     </div>
   );
